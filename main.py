@@ -54,17 +54,32 @@ class SignUpScreenSuccess(Screen):
         self.manager.current = "login_screen"
 
 class LoginScreenSuccess(Screen):
+    
     def log_out(self):
         self.manager.transition.direction = "right"
         self.manager.current = "login_screen"
+    
     def add_medicines(self):
         self.manager.transition.direction = "right"
         self.manager.current = "add_medicines"
+    
+    def add_member_to_medicines(self):
+        self.manager.transition.direction = "right"
+        self.manager.current = "add_member_to_medicines"
+    
+    def view_member_medicines(self):
+        self.manager.transition.direction = "right"
+        self.manager.current = "view_member_medicines"
 
 class AddMedicines(Screen):
     def log_out(self):
         self.manager.transition.direction = "right"
         self.manager.current = "login_screen"
+    
+    def back(self):
+        self.manager.transition.direction = "right"
+        self.manager.current = "login_screeen_success"
+    
     def add_medicine(self,med_name,med_weight, med_type): 
         print("med_name", med_name)      
         with open("medicines.json") as file:
@@ -76,6 +91,63 @@ class AddMedicines(Screen):
         with open("medicines.json", 'w') as file:
             json.dump(medicines, file)
 
+class MapMemberMedicines(Screen):
+    def log_out(self):
+        self.manager.transition.direction = "right"
+        self.manager.current = "login_screen"
+    
+    def back(self):
+        self.manager.transition.direction = "right"
+        self.manager.current = "login_screeen_success"
+    
+    def add_member_to_medicine(self,member_name,member_age):
+        with open("member_medicine.json") as file:
+            member_medicine = json.load(file)
+        member_medicine[member_name] = {'member_name': member_name, 'member_age': member_age,
+        'created': datetime.now().strftime("%Y-%m-%d %H-%M-%S")}
+        print ("member_medicine[member_name]",member_medicine[member_name])
+        with open("member_medicine.json", 'w') as file:
+            json.dump(member_medicine, file)
+    
+    def back(self):
+        self.manager.transition.direction = "right"
+        self.manager.current = "login_screeen_success"
+
+class ViewMemberMedicines(Screen):
+    def log_out(self):
+        self.manager.transition.direction = "right"
+        self.manager.current = "login_screen"
+    def back(self):
+        self.manager.transition.direction = "right"
+        self.manager.current = "login_screeen_success"
+
+    def view_member_medicine(self):
+        names = []
+        member_name = []
+        patient_name = []
+        patient_age = []
+        with open("member_medicine.json") as file:
+            member_medicine = json.load(file)
+            for members in member_medicine.items():
+                member_name.append(members[0])
+                print (member_name, "members")
+                for k,v in members[1].items():
+                    if k == "member_name":
+                        patient_name.append(v)
+                    elif k == "member_age":
+                        patient_age.append(v)
+                
+        return member_name, patient_name, patient_age
+    
+    def get_member_name(self):
+        names = []
+        member_name = []
+        with open("member_medicine.json") as file:
+            member_medicine = json.load(file)
+            for members in member_medicine.items():
+                member_name.append(members[0])
+                print (member_name, "members")
+        return members
 
 class RootWidget(ScreenManager):
     pass

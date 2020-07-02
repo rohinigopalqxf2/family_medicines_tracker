@@ -6,7 +6,7 @@
             padding: 15, 15
             spacing: 20, 20
             Label: 
-                text: "User Login"
+                text: "Member Login"
                 font_size: '20sp'
             TextInput:
                 id: username
@@ -106,18 +106,92 @@
                 color: 0.1, 0.7, 1, 1
         TextInput:
             id:new_med_name
-            hint_text: "Mention Medicine name"
+            hint_text: "Mention medicine name"
         TextInput:
             id: new_med_weight
             hint_text: "Weight (mg)"
         TextInput:
             id: new_med_type
-            hint_text: "Mention if syrup or Tablet"
+            hint_text: "Mention if syrup or tablet"
         Button:
             text: "Add Medicines"
             on_press: root.add_medicine(root.ids.new_med_name.text, root.ids.new_med_weight.text, root.ids.new_med_type.text)
-            #on_press: root.add_user(root.ids.username.text, root.ids.password.text)
+        Button:
+            text:"Back"
+            background_color: 1, 1, 1, 0
+            opacity: 1 if self.state == 'normal' else 0.5
+            color: 0.1, 0.7, 1, 1
+            on_press: root.back()
+            size_hint: 0.35, 0.35
+            pos_hint: {'center_x': 0.93, 'center_y': 0.8}
 
+<MapMemberMedicines>:
+    GridLayout:
+        cols: 1
+        padding: 30, 30
+        spacing: 30, 30
+        RelativeLayout:
+            Button: 
+                on_press: root.log_out()
+                size_hint: 0.35, 0.35
+                pos_hint: {'center_x': 0.93, 'center_y': 0.8}
+                text: "Logout"
+                background_color: 1, 1, 1, 0
+                opacity: 1 if self.state == 'normal' else 0.5
+                color: 0.1, 0.7, 1, 1
+        Label:
+            text: "Map family member to their medicines "
+        TextInput:
+            id:member_name
+            hint_text: "Mention family member name"
+        TextInput:
+            id: member_age
+            hint_text: "Mention member age"
+        Label:
+            id: medicine_name
+            text: "TDB - dropdown listing Medicine"
+        Label:
+            id: last_used_on
+            text: "TBD - datepicker"
+        Button:
+            text: "Map Member to Medicines"
+            on_press: root.add_member_to_medicine(root.ids.member_name.text, root.ids.member_age.text)
+        Button:
+            text:"Back"
+            background_color: 1, 1, 1, 0
+            opacity: 1 if self.state == 'normal' else 0.5
+            color: 0.1, 0.7, 1, 1
+            on_press: root.back()
+            size_hint: 0.35, 0.35
+            pos_hint: {'center_x': 0.93, 'center_y': 0.8}
+            
+
+<ViewMemberMedicines>:
+    GridLayout:
+        cols: 1
+        padding: 30, 30
+        spacing: 30, 30
+        RelativeLayout:
+            Button: 
+                on_press: root.log_out()
+                size_hint: 0.35, 0.35
+                pos_hint: {'center_x': 0.93, 'center_y': 0.8}
+                text: "Logout"
+                background_color: 1, 1, 1, 0
+                opacity: 1 if self.state == 'normal' else 0.5
+                color: 0.1, 0.7, 1, 1
+        Label:
+            text: "View Family and their Medicine(In progress)"
+        TextInput:
+            text: str(root.get_member_name())
+        Button:
+            text:"Back"
+            background_color: 1, 1, 1, 0
+            opacity: 1 if self.state == 'normal' else 0.5
+            color: 0.1, 0.7, 1, 1
+            on_press: root.back()
+            size_hint: 0.35, 0.35
+            pos_hint: {'center_x': 0.93, 'center_y': 0.8}
 
 <RootWidget>:
     LoginScreen:
@@ -130,3 +204,7 @@
         name: "login_screeen_success"
     AddMedicines:
         name: "add_medicines"
+    MapMemberMedicines:
+        name: "add_member_to_medicines"
+    ViewMemberMedicines:
+        name: "view_member_medicines"
