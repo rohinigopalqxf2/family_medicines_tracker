@@ -3,6 +3,8 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.animation import Animation
 from kivy.uix.image import Image
+from kivy.uix.dropdown import DropDown 
+from kivy.uix.button import Button
 from kivy.uix.behaviors import ButtonBehavior
 import json, glob
 from datetime import datetime
@@ -20,6 +22,8 @@ class LoginScreen(Screen):
     def login(self, uname, pword):
         with open("users.json") as file:
             users = json.load(file)
+        uname = uname.strip()
+        pword = pword.strip()
         if uname in users and users[uname]['password'] == pword:
             self.manager.current = 'login_screeen_success'
         else:
@@ -31,10 +35,11 @@ class SignUpScreen(Screen):
     def add_user(self, uname, pword):
         with open("users.json") as file:
             users = json.load(file)
-        print(type(uname))
         if uname == "" or pword == "":
             print("Please enter proper username and password. Blank is not allowed")
         else:
+            uname = uname.strip()
+            pword = pword.strip()
             users[uname] = {'username': uname, 'password': pword,
             'created': datetime.now().strftime("%Y-%m-%d %H-%M-%S")}
         
@@ -45,9 +50,32 @@ class SignUpScreen(Screen):
 
 class SignUpScreenSuccess(Screen):
     def go_to_login(self):
-
         self.manager.transition.direction = 'right'
         self.manager.current = "login_screen"
+
+class LoginScreenSuccess(Screen):
+    def log_out(self):
+        self.manager.transition.direction = "right"
+        self.manager.current = "login_screen"
+    def add_medicines(self):
+        self.manager.transition.direction = "right"
+        self.manager.current = "add_medicines"
+
+class AddMedicines(Screen):
+    def log_out(self):
+        self.manager.transition.direction = "right"
+        self.manager.current = "login_screen"
+    def add_medicine(self,med_name,med_weight, med_type): 
+        print("med_name", med_name)      
+        with open("medicines.json") as file:
+            medicines = json.load(file)
+            print(medicines, "medicies")
+        medicines[med_name] = {'medicine_name': med_name, 'medicine_weight': med_weight,
+        'med_type':med_type,'created': datetime.now().strftime("%Y-%m-%d %H-%M-%S")}
+        print ("medicines[med_name]",medicines[med_name])
+        with open("medicines.json", 'w') as file:
+            json.dump(medicines, file)
+
 
 class RootWidget(ScreenManager):
     pass

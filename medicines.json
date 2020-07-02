@@ -1,0 +1,20 @@
+{
+    "crocin\t": {
+        "medicine_name": "crocin\t",
+        "medicine_weight": "240mg",
+        "med_type": "syrup",
+        "created": "2020-07-02 13-12-15"
+    },
+    "Dolo": {
+        "medicine_name": "Dolo",
+        "medicine_weight": "650mg",
+        "med_type": "Tablet",
+        "created": "2020-07-02 13-14-21"
+    },
+    "dolo": {
+        "medicine_name": "dolo",
+        "medicine_weight": "500mg",
+        "med_type": "Tablet",
+        "created": "2020-07-02 13-20-48"
+    }
+}
